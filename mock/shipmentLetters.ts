@@ -1,0 +1,141 @@
+import type { ShipmentLetter } from '@/types'
+
+export const MOCK_SHIPMENT_LETTERS: ShipmentLetter[] = [
+    // ─── Surat jalan untuk DN-001 (RS Eka Hospital - May 7, complete) ──────────
+    {
+        id: 'sj-001',
+        code: 'SJ/2026/05/001',
+        dailyNeedId: 'dn-001',
+        clientId: 'cli-001',
+        clientName: 'RS Eka Hospital Cibubur',
+        clientAddress: 'Jl. Alternatif Cibubur No. 10, Cibubur, Jakarta Timur',
+        menuName: 'Ayam Goreng Kremes + Nasi Putih',
+        deliveryDate: '2026-05-07',
+        status: 'received_by_client',
+        items: [
+            { id: 'sji-001-1', ingredientId: 'ing-006', ingredientName: 'Ayam Broiler', unit: 'kg', quantity: 15, supplierId: 'sup-002', supplierName: 'CV Protein Segar', isChecked: true },
+            { id: 'sji-001-2', ingredientId: 'ing-001', ingredientName: 'Beras Putih', unit: 'kg', quantity: 12, supplierId: 'sup-001', supplierName: 'UD Maju Bersama', isChecked: true },
+            { id: 'sji-001-3', ingredientId: 'ing-041', ingredientName: 'Minyak Goreng', unit: 'liter', quantity: 3, supplierId: 'sup-007', supplierName: 'PT Indo Palm & Food', isChecked: true },
+            { id: 'sji-001-4', ingredientId: 'ing-019', ingredientName: 'Bawang Putih', unit: 'kg', quantity: 0.5, supplierId: 'sup-004', supplierName: 'PT Bumi Agro Nusantara', isChecked: true },
+        ],
+        driverName: 'Pak Budi Santoso',
+        vehicleNo: 'B 1234 KOP',
+        note: 'Pengiriman pagi. Diterima di loading dock belakang.',
+        createdAt: '2026-05-06T18:30:00',
+    },
+
+    // ─── Surat jalan untuk DN-002 (RS Hermina Depok - May 7, partial) ─────────
+    {
+        id: 'sj-002',
+        code: 'SJ/2026/05/002',
+        dailyNeedId: 'dn-002',
+        clientId: 'cli-002',
+        clientName: 'RS Hermina Depok',
+        clientAddress: 'Jl. Raya Bogor No. 98, Depok, Jawa Barat',
+        menuName: 'Sop Iga Sapi + Nasi Merah',
+        deliveryDate: '2026-05-07',
+        status: 'partial_arrived',
+        items: [
+            { id: 'sji-002-1', ingredientId: 'ing-010', ingredientName: 'Daging Iga Sapi', unit: 'kg', quantity: 22, supplierId: 'sup-003', supplierName: 'PT Prima Daging', isChecked: true },
+            { id: 'sji-002-2', ingredientId: 'ing-002', ingredientName: 'Beras Merah', unit: 'kg', quantity: 18, supplierId: 'sup-001', supplierName: 'UD Maju Bersama', isChecked: true },
+            { id: 'sji-002-3', ingredientId: 'ing-032', ingredientName: 'Kentang', unit: 'kg', quantity: 10, supplierId: 'sup-004', supplierName: 'PT Bumi Agro Nusantara', isChecked: false },
+            { id: 'sji-002-4', ingredientId: 'ing-033', ingredientName: 'Wortel', unit: 'kg', quantity: 8, supplierId: 'sup-004', supplierName: 'PT Bumi Agro Nusantara', isChecked: true },
+        ],
+        driverName: 'Pak Hendra Wijaya',
+        vehicleNo: 'B 5678 KOP',
+        note: 'Kentang menyusul karena stok terlambat dari supplier.',
+        createdAt: '2026-05-06T19:00:00',
+    },
+
+    // ─── Surat jalan untuk DN-003 (Panti Asuhan - May 7, complete) ────────────
+    {
+        id: 'sj-003',
+        code: 'SJ/2026/05/003',
+        dailyNeedId: 'dn-003',
+        clientId: 'cli-003',
+        clientName: 'Panti Asuhan Pelita Harapan',
+        clientAddress: 'Jl. Pelita No. 5, Depok, Jawa Barat',
+        menuName: 'Nasi Goreng Telur + Tempe Orek',
+        deliveryDate: '2026-05-07',
+        status: 'received_by_client',
+        items: [
+            { id: 'sji-003-1', ingredientId: 'ing-001', ingredientName: 'Beras Putih', unit: 'kg', quantity: 6, supplierId: 'sup-001', supplierName: 'UD Maju Bersama', isChecked: true },
+            { id: 'sji-003-2', ingredientId: 'ing-011', ingredientName: 'Telur Ayam', unit: 'kg', quantity: 4, supplierId: 'sup-002', supplierName: 'CV Protein Segar', isChecked: true },
+            { id: 'sji-003-3', ingredientId: 'ing-017', ingredientName: 'Tempe', unit: 'potong', quantity: 30, supplierId: 'sup-006', supplierName: 'UD Sari Tahu & Tempe Bogor', isChecked: true },
+            { id: 'sji-003-4', ingredientId: 'ing-043', ingredientName: 'Kecap Manis', unit: 'botol', quantity: 2, supplierId: 'sup-007', supplierName: 'PT Indo Palm & Food', isChecked: true },
+        ],
+        driverName: 'Pak Budi Santoso',
+        vehicleNo: 'B 1234 KOP',
+        note: '',
+        createdAt: '2026-05-06T18:45:00',
+    },
+
+    // ─── Surat jalan untuk DN-004 (RSUD Bekasi - May 7, in_process) ───────────
+    {
+        id: 'sj-004',
+        code: 'SJ/2026/05/004',
+        dailyNeedId: 'dn-004',
+        clientId: 'cli-004',
+        clientName: 'RSUD Kota Bekasi',
+        clientAddress: 'Jl. Pramuka No. 55, Bekasi, Jawa Barat',
+        menuName: 'Capcay Seafood + Nasi Putih',
+        deliveryDate: '2026-05-07',
+        status: 'in_transit',
+        items: [
+            { id: 'sji-004-1', ingredientId: 'ing-034', ingredientName: 'Kol / Kubis', unit: 'kg', quantity: 8, supplierId: 'sup-004', supplierName: 'PT Bumi Agro Nusantara', isChecked: true },
+            { id: 'sji-004-2', ingredientId: 'ing-033', ingredientName: 'Wortel', unit: 'kg', quantity: 6, supplierId: 'sup-004', supplierName: 'PT Bumi Agro Nusantara', isChecked: true },
+            { id: 'sji-004-3', ingredientId: 'ing-001', ingredientName: 'Beras Putih', unit: 'kg', quantity: 20, supplierId: 'sup-001', supplierName: 'UD Maju Bersama', isChecked: true },
+            { id: 'sji-004-4', ingredientId: 'ing-045', ingredientName: 'Saus Tiram', unit: 'botol', quantity: 4, supplierId: 'sup-007', supplierName: 'PT Indo Palm & Food', isChecked: true },
+        ],
+        driverName: 'Pak Agus Prasetyo',
+        vehicleNo: 'B 9012 KOP',
+        note: 'Udang menyusul besok setelah supplier konfirmasi.',
+        createdAt: '2026-05-07T06:00:00',
+    },
+
+    // ─── Draft surat jalan untuk DN-005 (RS Eka - May 8) ──────────────────────
+    {
+        id: 'sj-005',
+        code: 'SJ/2026/05/005',
+        dailyNeedId: 'dn-005',
+        clientId: 'cli-001',
+        clientName: 'RS Eka Hospital Cibubur',
+        clientAddress: 'Jl. Alternatif Cibubur No. 10, Cibubur, Jakarta Timur',
+        menuName: 'Opor Ayam + Nasi Putih',
+        deliveryDate: '2026-05-08',
+        status: 'scheduled',
+        items: [
+            { id: 'sji-005-1', ingredientId: 'ing-007', ingredientName: 'Ayam Kampung', unit: 'kg', quantity: 14, supplierId: 'sup-002', supplierName: 'CV Protein Segar', isChecked: false },
+            { id: 'sji-005-2', ingredientId: 'ing-040', ingredientName: 'Santan Kelapa', unit: 'liter', quantity: 5, supplierId: 'sup-007', supplierName: 'PT Indo Palm & Food', isChecked: false },
+            { id: 'sji-005-3', ingredientId: 'ing-001', ingredientName: 'Beras Putih', unit: 'kg', quantity: 12, supplierId: 'sup-001', supplierName: 'UD Maju Bersama', isChecked: false },
+            { id: 'sji-005-4', ingredientId: 'ing-018', ingredientName: 'Bawang Merah', unit: 'kg', quantity: 1, supplierId: 'sup-004', supplierName: 'PT Bumi Agro Nusantara', isChecked: false },
+        ],
+        driverName: 'Pak Budi Santoso',
+        vehicleNo: 'B 1234 KOP',
+        note: '',
+        createdAt: '2026-05-07T20:00:00',
+    },
+
+    // ─── Draft surat jalan untuk DN-007 (RSUD Bekasi - May 8) ────────────────
+    {
+        id: 'sj-006',
+        code: 'SJ/2026/05/006',
+        dailyNeedId: 'dn-007',
+        clientId: 'cli-004',
+        clientName: 'RSUD Kota Bekasi',
+        clientAddress: 'Jl. Pramuka No. 55, Bekasi, Jawa Barat',
+        menuName: 'Rendang Sapi + Nasi Putih + Sayur Bening',
+        deliveryDate: '2026-05-08',
+        status: 'draft',
+        items: [
+            { id: 'sji-006-1', ingredientId: 'ing-008', ingredientName: 'Daging Sapi Murni', unit: 'kg', quantity: 20, supplierId: null, supplierName: null, isChecked: false },
+            { id: 'sji-006-2', ingredientId: 'ing-040', ingredientName: 'Santan Kelapa', unit: 'liter', quantity: 6, supplierId: null, supplierName: null, isChecked: false },
+            { id: 'sji-006-3', ingredientId: 'ing-001', ingredientName: 'Beras Putih', unit: 'kg', quantity: 20, supplierId: null, supplierName: null, isChecked: false },
+            { id: 'sji-006-4', ingredientId: 'ing-036', ingredientName: 'Bayam Segar', unit: 'ikat', quantity: 15, supplierId: null, supplierName: null, isChecked: false },
+        ],
+        driverName: null,
+        vehicleNo: null,
+        note: 'Menunggu konfirmasi driver.',
+        createdAt: '2026-05-07T21:00:00',
+    },
+]

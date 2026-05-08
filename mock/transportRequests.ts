@@ -1,0 +1,83 @@
+import type { TransportRequest } from '@/types'
+
+export const MOCK_TRANSPORT_REQUESTS: TransportRequest[] = [
+    {
+        id: 'trp-001',
+        destination: 'RS Eka Hospital Cibubur',
+        clientId: 'cli-001',
+        clientName: 'RS Eka Hospital Cibubur',
+        deliveryDate: '2026-05-07',
+        driverName: 'Pak Budi Santoso',
+        vehicleType: 'Pickup Engkel',
+        vehicleNo: 'B 1234 KOP',
+        status: 'completed',
+        note: 'Pengiriman gabungan 2 surat jalan.',
+        shipmentLetterIds: ['sj-001', 'sj-003'],
+    },
+    {
+        id: 'trp-002',
+        destination: 'RS Hermina Depok',
+        clientId: 'cli-002',
+        clientName: 'RS Hermina Depok',
+        deliveryDate: '2026-05-07',
+        driverName: 'Pak Hendra Wijaya',
+        vehicleType: 'Box Truck',
+        vehicleNo: 'B 5678 KOP',
+        status: 'in_transit',
+        note: 'Perlu konfirmasi ulang jam tiba.',
+        shipmentLetterIds: ['sj-002'],
+    },
+    {
+        id: 'trp-003',
+        destination: 'RSUD Kota Bekasi',
+        clientId: 'cli-004',
+        clientName: 'RSUD Kota Bekasi',
+        deliveryDate: '2026-05-07',
+        driverName: 'Pak Agus Prasetyo',
+        vehicleType: 'Pickup Engkel',
+        vehicleNo: 'B 9012 KOP',
+        status: 'in_transit',
+        note: '',
+        shipmentLetterIds: ['sj-004'],
+    },
+    {
+        id: 'trp-004',
+        destination: 'RS Eka Hospital Cibubur',
+        clientId: 'cli-001',
+        clientName: 'RS Eka Hospital Cibubur',
+        deliveryDate: '2026-05-08',
+        driverName: 'Pak Budi Santoso',
+        vehicleType: 'Pickup Engkel',
+        vehicleNo: 'B 1234 KOP',
+        status: 'scheduled',
+        note: 'Berangkat pukul 05.30.',
+        shipmentLetterIds: ['sj-005'],
+    },
+    {
+        id: 'trp-005',
+        destination: 'RSUD Kota Bekasi',
+        clientId: 'cli-004',
+        clientName: 'RSUD Kota Bekasi',
+        deliveryDate: '2026-05-08',
+        driverName: '',
+        vehicleType: 'Box Truck',
+        vehicleNo: '',
+        status: 'waiting_driver',
+        note: 'Driver belum dikonfirmasi.',
+        shipmentLetterIds: ['sj-006'],
+    },
+]
+
+export const MOCK_DRIVERS = [
+    { id: 'drv-001', name: 'Pak Budi Santoso', phone: '0812-1111-2222' },
+    { id: 'drv-002', name: 'Pak Hendra Wijaya', phone: '0813-3333-4444' },
+    { id: 'drv-003', name: 'Pak Agus Prasetyo', phone: '0821-5555-6666' },
+    { id: 'drv-004', name: 'Pak Doni Kurniawan', phone: '0857-7777-8888' },
+]
+
+export const MOCK_VEHICLES = [
+    { id: 'veh-001', type: 'Pickup Engkel', no: 'B 1234 KOP' },
+    { id: 'veh-002', type: 'Box Truck', no: 'B 5678 KOP' },
+    { id: 'veh-003', type: 'Pickup Engkel', no: 'B 9012 KOP' },
+    { id: 'veh-004', type: 'Motor Kurir', no: 'B 3456 KOP' },
+]
