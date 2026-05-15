@@ -105,9 +105,9 @@ export function DailyNeedCardOps({
                 <span className="font-medium text-slate-800">
                   {ing.quantity} {ing.unit}
                 </span>
-                {ing.supplierName ? (
+                {ing.supplierSplits.length > 0 ? (
                   <span className="text-slate-400 truncate max-w-24">
-                    {ing.supplierName}
+                    {ing.supplierSplits.map((s) => s.supplierName).join(", ")}
                   </span>
                 ) : (
                   <span className="text-amber-500 italic">

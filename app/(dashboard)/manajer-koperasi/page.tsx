@@ -34,7 +34,7 @@ export default function ManajerKoperasiDashboardPage() {
   ).length;
   const todayNeeds = MOCK_DAILY_NEEDS.filter((n) => n.deliveryDate === TODAY);
   const unassigned = MOCK_DAILY_NEEDS.flatMap((n) =>
-    n.ingredients.filter((i) => i.supplierId === null),
+    n.ingredients.filter((i) => i.supplierSplits.length === 0),
   ).length;
 
   const stats = [
@@ -135,7 +135,7 @@ export default function ManajerKoperasiDashboardPage() {
           <div className="space-y-2">
             {todayNeeds.map((n) => {
               const unassignedCount = n.ingredients.filter(
-                (i) => i.supplierId === null,
+                (i) => i.supplierSplits.length === 0,
               ).length;
               return (
                 <button

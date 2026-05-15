@@ -3,8 +3,8 @@ import type { RoleId, RoleConfig } from '@/types/navigation'
 export const ROLE_CONFIGS: Record<RoleId, RoleConfig> = {
     admin_client: {
         id: 'admin_client',
-        label: 'Admin Client',
-        shortLabel: 'Admin Client',
+        label: 'Ahli Gizi',
+        shortLabel: 'Ahli Gizi',
         homeHref: '/admin-client',
         accentClass: 'bg-blue-600',
         navItems: [
@@ -20,8 +20,8 @@ export const ROLE_CONFIGS: Record<RoleId, RoleConfig> = {
 
     admin_gudang_client: {
         id: 'admin_gudang_client',
-        label: 'Admin Gudang Client',
-        shortLabel: 'Gudang Client',
+        label: 'Akuntan Dapur',
+        shortLabel: 'Akuntan Dapur',
         homeHref: '/admin-gudang-client',
         accentClass: 'bg-teal-600',
         navItems: [
@@ -30,21 +30,14 @@ export const ROLE_CONFIGS: Record<RoleId, RoleConfig> = {
                 label: 'Dashboard',
                 href: '/admin-gudang-client',
                 iconName: 'layout-dashboard',
-                description: 'Ringkasan aktivitas gudang',
+                description: 'Ringkasan aktivitas',
             },
             {
                 id: 'pengiriman',
                 label: 'Pengiriman',
                 href: '/admin-gudang-client/pengiriman',
                 iconName: 'truck',
-                description: 'Monitor pengiriman bahan baku',
-            },
-            {
-                id: 'bahan-baku',
-                label: 'Bahan Baku',
-                href: '/admin-gudang-client/bahan-baku',
-                iconName: 'package',
-                description: 'Kelola stok bahan baku',
+                description: 'Monitor pengiriman & invoice masuk',
             },
         ],
     },
@@ -190,6 +183,37 @@ export const ROLE_CONFIGS: Record<RoleId, RoleConfig> = {
             },
         ],
     },
+
+    transporter: {
+        id: 'transporter',
+        label: 'Transporter',
+        shortLabel: 'Transporter',
+        homeHref: '/transporter',
+        accentClass: 'bg-sky-600',
+        navItems: [
+            {
+                id: 'armada',
+                label: 'Armada',
+                href: '/transporter',
+                iconName: 'truck',
+                description: 'Kelola armada kendaraan',
+            },
+            {
+                id: 'permintaan',
+                label: 'Permintaan',
+                href: '/transporter/permintaan',
+                iconName: 'clipboard-list',
+                description: 'List permintaan transportasi',
+            },
+            {
+                id: 'timeline',
+                label: 'Timeline',
+                href: '/transporter/timeline',
+                iconName: 'calendar-range',
+                description: 'Jadwal per unit armada',
+            },
+        ],
+    },
 }
 
 export const ALL_ROLES: RoleId[] = [
@@ -198,6 +222,7 @@ export const ALL_ROLES: RoleId[] = [
     'manajer_koperasi',
     'admin_koperasi',
     'admin_gudang',
+    'transporter',
 ]
 
 export function getRoleFromPathname(pathname: string): RoleId {
@@ -205,5 +230,6 @@ export function getRoleFromPathname(pathname: string): RoleId {
     if (pathname.startsWith('/manajer-koperasi')) return 'manajer_koperasi'
     if (pathname.startsWith('/admin-koperasi')) return 'admin_koperasi'
     if (pathname.startsWith('/admin-gudang')) return 'admin_gudang'
+    if (pathname.startsWith('/transporter')) return 'transporter'
     return 'admin_client'
 }

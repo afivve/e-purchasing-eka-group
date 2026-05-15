@@ -1,6 +1,6 @@
 "use client";
 
-import { X, ChevronDown } from "lucide-react";
+import { X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { IngredientFormData } from "@/hooks/useIngredientsManager";
 import type { Supplier } from "@/types";
@@ -89,22 +89,25 @@ export function IngredientFormSheet({
               />
             </div>
             <div>
-              <label className="mb-1 block text-xs font-medium text-slate-600">
+              <label className="mb-2 block text-xs font-medium text-slate-600">
                 Kategori
               </label>
-              <div className="relative">
-                <select
-                  value={form.category}
-                  onChange={(e) => setField("category", e.target.value)}
-                  className="h-11 w-full appearance-none rounded-lg border border-slate-200 bg-white pl-3 pr-10 text-sm text-slate-800 focus:border-violet-400 focus:outline-none focus:ring-2 focus:ring-violet-100"
-                >
-                  {categories.map((c) => (
-                    <option key={c} value={c}>
-                      {c}
-                    </option>
-                  ))}
-                </select>
-                <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+              <div className="flex flex-wrap gap-1.5">
+                {categories.map((c) => (
+                  <button
+                    key={c}
+                    type="button"
+                    onClick={() => setField("category", c)}
+                    className={cn(
+                      "rounded-full border px-2.5 py-1 text-xs font-medium transition-colors",
+                      form.category === c
+                        ? "border-violet-400 bg-violet-50 text-violet-700"
+                        : "border-slate-200 bg-white text-slate-600 hover:border-slate-300",
+                    )}
+                  >
+                    {c}
+                  </button>
+                ))}
               </div>
             </div>
           </div>

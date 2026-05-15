@@ -122,7 +122,11 @@ export function ExportNeedsPreview({ needs, dateFilter, onClose }: Props) {
                           {ing.unit}
                         </td>
                         <td className="px-3 py-1.5 text-slate-400 hidden sm:table-cell">
-                          {ing.supplierName ?? "-"}
+                          {ing.supplierSplits.length > 0
+                            ? ing.supplierSplits
+                                .map((s) => s.supplierName)
+                                .join(", ")
+                            : "-"}
                         </td>
                       </tr>
                     ))}

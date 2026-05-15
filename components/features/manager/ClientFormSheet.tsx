@@ -31,6 +31,8 @@ export function ClientFormSheet({
 }: ClientFormSheetProps) {
   if (!isOpen) return null;
 
+  const isDapur = form.clientType === "dapur";
+
   return (
     <div className="fixed inset-0 z-50 flex flex-col justify-end">
       <div
@@ -82,71 +84,109 @@ export function ClientFormSheet({
             />
           </div>
 
-          {/* Kepala SPPI */}
+          {/* Jenis Client */}
           <div>
-            <label className="mb-1 block text-xs font-medium text-slate-600">
-              Kepala SPPI <span className="text-red-500">*</span>
+            <label className="mb-2 block text-xs font-medium text-slate-600">
+              Jenis Client <span className="text-red-500">*</span>
             </label>
-            <div className="relative">
-              <select
-                value={form.kepalaSppiId}
-                onChange={(e) => setField("kepalaSppiId", e.target.value)}
-                className="h-11 w-full appearance-none rounded-lg border border-slate-200 bg-white pl-3 pr-10 text-sm text-slate-800 focus:border-violet-400 focus:outline-none focus:ring-2 focus:ring-violet-100"
-              >
-                <option value="">— Pilih Kepala SPPI —</option>
-                {adminClientUsers.map((u) => (
-                  <option key={u.id} value={u.id}>
-                    {u.name}
-                  </option>
-                ))}
-              </select>
-              <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+            <div className="flex gap-2">
+              {(
+                [
+                  { value: "dapur", label: "Dapur / Catering" },
+                  { value: "non_dapur", label: "Non Dapur" },
+                ] as const
+              ).map((opt) => (
+                <button
+                  key={opt.value}
+                  type="button"
+                  onClick={() => setField("clientType", opt.value)}
+                  className={cn(
+                    "flex-1 h-10 rounded-lg border text-xs font-medium transition-colors",
+                    form.clientType === opt.value
+                      ? "border-violet-400 bg-violet-50 text-violet-700"
+                      : "border-slate-200 bg-white text-slate-600 hover:border-slate-300",
+                  )}
+                >
+                  {opt.label}
+                </button>
+              ))}
             </div>
           </div>
 
-          {/* Akuntan Client */}
-          <div>
-            <label className="mb-1 block text-xs font-medium text-slate-600">
-              Akuntan Client <span className="text-red-500">*</span>
-            </label>
-            <div className="relative">
-              <select
-                value={form.akuntanClientId}
-                onChange={(e) => setField("akuntanClientId", e.target.value)}
-                className="h-11 w-full appearance-none rounded-lg border border-slate-200 bg-white pl-3 pr-10 text-sm text-slate-800 focus:border-violet-400 focus:outline-none focus:ring-2 focus:ring-violet-100"
-              >
-                <option value="">— Pilih Akuntan Client —</option>
-                {adminClientUsers.map((u) => (
-                  <option key={u.id} value={u.id}>
-                    {u.name}
-                  </option>
-                ))}
-              </select>
-              <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
-            </div>
-          </div>
+          {/* Conditional: Dapur */}
+          {isDapur && (
+            <>
+              {/* Akuntan Client */}
+              <div>
+                <label className="mb-1 block text-xs font-medium text-slate-600">
+                  Akuntan Client <span className="text-red-500">*</span>
+                </label>
+                <div className="relative">
+                  <select
+                    value={form.akuntanClientId}
+                    onChange={(e) =>
+                      setField("akuntanClientId", e.target.value)
+                    }
+                    className="h-11 w-full appearance-none rounded-lg border border-slate-200 bg-white pl-3 pr-10 text-sm text-slate-800 focus:border-violet-400 focus:outline-none focus:ring-2 focus:ring-violet-100"
+                  >
+                    <option value="">— Pilih Akuntan Client —</option>
+                    {adminClientUsers.map((u) => (
+                      <option key={u.id} value={u.id}>
+                        {u.name}
+                      </option>
+                    ))}
+                  </select>
+                  <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+                </div>
+              </div>
 
-          {/* Ahli Gizi */}
-          <div>
-            <label className="mb-1 block text-xs font-medium text-slate-600">
-              Ahli Gizi <span className="text-red-500">*</span>
-            </label>
-            <div className="relative">
-              <select
-                value={form.ahliGiziId}
-                onChange={(e) => setField("ahliGiziId", e.target.value)}
-                className="h-11 w-full appearance-none rounded-lg border border-slate-200 bg-white pl-3 pr-10 text-sm text-slate-800 focus:border-violet-400 focus:outline-none focus:ring-2 focus:ring-violet-100"
-              >
-                <option value="">— Pilih Ahli Gizi —</option>
-                {adminClientUsers.map((u) => (
-                  <option key={u.id} value={u.id}>
-                    {u.name}
-                  </option>
-                ))}
-              </select>
-              <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+              {/* Ahli Gizi */}
+              <div>
+                <label className="mb-1 block text-xs font-medium text-slate-600">
+                  Ahli Gizi <span className="text-red-500">*</span>
+                </label>
+                <div className="relative">
+                  <select
+                    value={form.ahliGiziId}
+                    onChange={(e) => setField("ahliGiziId", e.target.value)}
+                    className="h-11 w-full appearance-none rounded-lg border border-slate-200 bg-white pl-3 pr-10 text-sm text-slate-800 focus:border-violet-400 focus:outline-none focus:ring-2 focus:ring-violet-100"
+                  >
+                    <option value="">— Pilih Ahli Gizi —</option>
+                    {adminClientUsers.map((u) => (
+                      <option key={u.id} value={u.id}>
+                        {u.name}
+                      </option>
+                    ))}
+                  </select>
+                  <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+                </div>
+              </div>
+            </>
+          )}
+
+          {/* Conditional: Non Dapur */}
+          {!isDapur && (
+            <div>
+              <label className="mb-1 block text-xs font-medium text-slate-600">
+                Manager Client <span className="text-red-500">*</span>
+              </label>
+              <div className="relative">
+                <select
+                  value={form.managerClientId}
+                  onChange={(e) => setField("managerClientId", e.target.value)}
+                  className="h-11 w-full appearance-none rounded-lg border border-slate-200 bg-white pl-3 pr-10 text-sm text-slate-800 focus:border-violet-400 focus:outline-none focus:ring-2 focus:ring-violet-100"
+                >
+                  <option value="">— Pilih Manager Client —</option>
+                  {adminClientUsers.map((u) => (
+                    <option key={u.id} value={u.id}>
+                      {u.name}
+                    </option>
+                  ))}
+                </select>
+                <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+              </div>
             </div>
-          </div>
+          )}
         </div>
 
         <div className="border-t border-slate-100 p-4">

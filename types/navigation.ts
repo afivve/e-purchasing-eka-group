@@ -4,6 +4,7 @@ export type RoleId =
     | 'manajer_koperasi'
     | 'admin_koperasi'
     | 'admin_gudang'
+    | 'transporter'
 
 export interface NavItem {
     id: string

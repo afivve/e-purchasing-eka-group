@@ -1,19 +1,23 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import { X, AlertCircle } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { X, AlertCircle, FileText } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useMenuForm } from "@/hooks/useMenuForm";
 import { IngredientItem } from "@/components/features/IngredientItem";
 import { IngredientSelector } from "@/components/features/IngredientSelector";
-import type { DailyMenu } from "@/types";
+import type { DailyMenu, MenuTemplate } from "@/types";
 
 interface MenuFormSheetProps {
   open: boolean;
   onClose: () => void;
-  onSave: (menu: DailyMenu) => void;
+  onSave: (menu: DailyMenu, saveAsTemplate: boolean) => void;
   editingMenu: DailyMenu | null;
   packageId: string | null;
+  templates: MenuTemplate[];
+  onPickTemplate: () => void;
+  populateTemplate?: MenuTemplate | null;
+  onTemplateClear?: () => void;
 }
 
 export function MenuFormSheet({
@@ -22,11 +26,17 @@ export function MenuFormSheet({
   onSave,
   editingMenu,
   packageId,
+  templates,
+  onPickTemplate,
+  populateTemplate,
+  onTemplateClear,
 }: MenuFormSheetProps) {
+  const [saveAsTemplate, setSaveAsTemplate] = useState(false);
   const {
     form,
     setField,
     populate,
+    populateFromTemplate,
     reset,
     ingredientSearch,
     setIngredientSearch,
@@ -54,11 +64,25 @@ export function MenuFormSheet({
     if (open) {
       if (editingMenu) {
         populate(editingMenu);
+      } else if (populateTemplate) {
+        populateFromTemplate(
+          populateTemplate.name,
+          populateTemplate.ingredients,
+        );
+        onTemplateClear?.();
       } else {
         reset();
       }
     }
-  }, [open, editingMenu, populate, reset]);
+  }, [
+    open,
+    editingMenu,
+    populateTemplate,
+    populate,
+    populateFromTemplate,
+    reset,
+    onTemplateClear,
+  ]);
 
   // Trap body scroll when sheet is open
   useEffect(() => {
@@ -76,7 +100,8 @@ export function MenuFormSheet({
     e.preventDefault();
     if (!isValid) return;
     const menu = buildMenu(editingMenu?.id);
-    onSave(menu);
+    onSave(menu, saveAsTemplate);
+    setSaveAsTemplate(false);
   }
 
   const noIngredients = form.ingredientLines.length === 0;
@@ -110,13 +135,26 @@ export function MenuFormSheet({
           <h2 className="text-base font-semibold text-slate-900">
             {isEdit ? "Edit Menu" : "Tambah Menu Harian"}
           </h2>
-          <button
-            type="button"
-            onClick={onClose}
-            className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-500 hover:bg-slate-100 transition-colors"
-          >
-            <X size={18} />
-          </button>
+          <div className="flex items-center gap-1">
+            {!isEdit && (
+              <button
+                type="button"
+                onClick={onPickTemplate}
+                className="flex items-center gap-1.5 rounded-lg border border-blue-200 bg-blue-50 px-2.5 py-1.5 text-xs font-medium text-blue-700 hover:bg-blue-100 transition-colors"
+              >
+                <FileText size={13} />
+                Pilih Template
+                {templates.length > 0 ? ` (${templates.length})` : ""}
+              </button>
+            )}
+            <button
+              type="button"
+              onClick={onClose}
+              className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-500 hover:bg-slate-100 transition-colors"
+            >
+              <X size={18} />
+            </button>
+          </div>
         </div>
 
         {/* Scrollable content */}
@@ -235,7 +273,21 @@ export function MenuFormSheet({
         </div>
 
         {/* Sticky save button */}
-        <div className="shrink-0 px-4 py-3 border-t border-slate-100 bg-white">
+        <div className="shrink-0 px-4 py-3 border-t border-slate-100 bg-white space-y-2.5">
+          {/* Save as template checkbox */}
+          {!isEdit && (
+            <label className="flex items-center gap-2.5 cursor-pointer select-none">
+              <input
+                type="checkbox"
+                checked={saveAsTemplate}
+                onChange={(e) => setSaveAsTemplate(e.target.checked)}
+                className="h-4 w-4 rounded border-slate-300 text-blue-600 focus:ring-blue-400"
+              />
+              <span className="text-sm text-slate-600">
+                Simpan sebagai template menu
+              </span>
+            </label>
+          )}
           <button
             type="submit"
             form="menu-form"

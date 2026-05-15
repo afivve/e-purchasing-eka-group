@@ -12,9 +12,9 @@ interface ShipmentCardProps {
 }
 
 /** States that show the receiving progress bar */
-const PROGRESS_STATES = new Set(["delivered", "partial", "checked"]);
+const PROGRESS_STATES = new Set(["delivered", "checked"]);
 /** States that prompt admin to take action */
-const ACTION_STATES = new Set(["delivered", "partial"]);
+const ACTION_STATES = new Set(["delivered"]);
 
 export function ShipmentCard({ shipment, onDetail }: ShipmentCardProps) {
   const showProgress = PROGRESS_STATES.has(shipment.status);

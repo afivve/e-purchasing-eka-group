@@ -1,5 +1,5 @@
 import { useState, useCallback, useMemo } from 'react'
-import type { DailyMenu, MenuIngredientLine, MenuFormData } from '@/types'
+import type { DailyMenu, MenuIngredient, MenuIngredientLine, MenuFormData } from '@/types'
 import { MOCK_INGREDIENTS } from '@/mock/ingredients'
 import { generateId } from '@/lib/utils'
 
@@ -41,6 +41,22 @@ export function useMenuForm(packageId: string | null) {
                 isNew: false,
             })),
         })
+    }, [])
+
+    const populateFromTemplate = useCallback((tplName: string, ingredients: MenuIngredient[]) => {
+        setForm((prev) => ({
+            ...prev,
+            name: prev.name || tplName,
+            ingredientLines: ingredients.map((ing) => ({
+                tempId: generateId('line'),
+                ingredientId: ing.ingredientId,
+                ingredientName: ing.ingredientName,
+                unit: ing.unit,
+                quantity: String(ing.quantity),
+                note: ing.note,
+                isNew: false,
+            })),
+        }))
     }, [])
 
     const reset = useCallback(() => {
@@ -157,6 +173,7 @@ export function useMenuForm(packageId: string | null) {
         form,
         setField,
         populate,
+        populateFromTemplate,
         reset,
         ingredientSearch,
         setIngredientSearch,

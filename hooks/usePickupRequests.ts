@@ -1,52 +1,43 @@
 'use client'
 
 import { useState, useMemo } from 'react'
-import { MOCK_TRANSPORT_REQUESTS, MOCK_DRIVERS, MOCK_VEHICLES } from '@/mock/transportRequests'
-import { MOCK_CLIENTS } from '@/mock/clients'
-import type { TransportRequest, TransportStatus } from '@/types'
+import { MOCK_PICKUP_REQUESTS } from '@/mock/pickupRequests'
+import { MOCK_DRIVERS } from '@/mock/transportRequests'
+import type { PickupRequest, PickupRequestStatus, PickupDestination } from '@/types'
 import { generateId } from '@/lib/utils'
 
-export interface TransportFormData {
-    destination: string
-    clientId: string
-    clientName: string
-    deliveryDate: string
+export interface PickupFormData {
+    departureDateTime: string
+    destinations: PickupDestination[]
     driverName: string
     vehicleType: string
     vehicleNo: string
     note: string
-    shipmentLetterIds: string[]
 }
 
-const EMPTY_FORM: TransportFormData = {
-    destination: '',
-    clientId: '',
-    clientName: '',
-    deliveryDate: '',
+const EMPTY_FORM: PickupFormData = {
+    departureDateTime: '',
+    destinations: [],
     driverName: '',
     vehicleType: '',
     vehicleNo: '',
     note: '',
-    shipmentLetterIds: [],
 }
 
-export function useTransport() {
-    const [requests, setRequests] = useState<TransportRequest[]>(MOCK_TRANSPORT_REQUESTS)
-    const [dateFilter, setDateFilter] = useState<string>('all')
-    const [statusFilter, setStatusFilter] = useState<TransportStatus | 'all'>('all')
+export function usePickupRequests() {
+    const [requests, setRequests] = useState<PickupRequest[]>(MOCK_PICKUP_REQUESTS)
+    const [statusFilter, setStatusFilter] = useState<PickupRequestStatus | 'all'>('all')
     const [isFormOpen, setIsFormOpen] = useState(false)
     const [editingId, setEditingId] = useState<string | null>(null)
-    const [form, setForm] = useState<TransportFormData>(EMPTY_FORM)
+    const [form, setForm] = useState<PickupFormData>(EMPTY_FORM)
     const [isSubmitting, setIsSubmitting] = useState(false)
     const [toastMessage, setToastMessage] = useState<string | null>(null)
 
     const filteredRequests = useMemo(() => {
-        return requests.filter((r) => {
-            const matchDate = dateFilter === 'all' || r.deliveryDate === dateFilter
-            const matchStatus = statusFilter === 'all' || r.status === statusFilter
-            return matchDate && matchStatus
-        })
-    }, [requests, dateFilter, statusFilter])
+        return requests.filter((r) =>
+            statusFilter === 'all' || r.status === statusFilter
+        )
+    }, [requests, statusFilter])
 
     function openAddForm() {
         setForm(EMPTY_FORM)
@@ -58,15 +49,12 @@ export function useTransport() {
         const r = requests.find((r) => r.id === id)
         if (!r) return
         setForm({
-            destination: r.destination,
-            clientId: r.clientId,
-            clientName: r.clientName,
-            deliveryDate: r.deliveryDate,
+            departureDateTime: r.departureDateTime,
+            destinations: r.destinations.map((d) => ({ ...d })),
             driverName: r.driverName,
             vehicleType: r.vehicleType,
             vehicleNo: r.vehicleNo,
             note: r.note,
-            shipmentLetterIds: [...r.shipmentLetterIds],
         })
         setEditingId(id)
         setIsFormOpen(true)
@@ -77,19 +65,45 @@ export function useTransport() {
         setEditingId(null)
     }
 
-    function setField<K extends keyof TransportFormData>(key: K, value: TransportFormData[K]) {
+    function setField<K extends keyof PickupFormData>(key: K, value: PickupFormData[K]) {
         setForm((prev) => ({ ...prev, [key]: value }))
     }
 
+    function addDestination() {
+        setForm((prev) => ({
+            ...prev,
+            destinations: [
+                ...prev.destinations,
+                { id: generateId('pkpd'), place: '', items: '' },
+            ],
+        }))
+    }
+
+    function updateDestination(id: string, field: 'place' | 'items', value: string) {
+        setForm((prev) => ({
+            ...prev,
+            destinations: prev.destinations.map((d) =>
+                d.id === id ? { ...d, [field]: value } : d,
+            ),
+        }))
+    }
+
+    function removeDestination(id: string) {
+        setForm((prev) => ({
+            ...prev,
+            destinations: prev.destinations.filter((d) => d.id !== id),
+        }))
+    }
+
     const isValid =
-        form.destination.trim().length > 0 &&
-        form.deliveryDate !== '' &&
-        form.driverName !== ''
+        form.departureDateTime !== '' &&
+        form.destinations.length > 0 &&
+        form.destinations.every((d) => d.place.trim().length > 0)
 
     async function saveRequest() {
         if (!isValid) return
         setIsSubmitting(true)
-        await new Promise((r) => setTimeout(r, 700))
+        await new Promise((r) => setTimeout(r, 600))
 
         if (editingId) {
             setRequests((prev) =>
@@ -97,37 +111,30 @@ export function useTransport() {
                     r.id === editingId
                         ? {
                             ...r,
-                            destination: form.destination,
-                            clientId: form.clientId,
-                            clientName: form.clientName,
-                            deliveryDate: form.deliveryDate,
+                            departureDateTime: form.departureDateTime,
+                            destinations: form.destinations,
                             driverName: form.driverName,
                             vehicleType: form.vehicleType,
                             vehicleNo: form.vehicleNo,
                             note: form.note,
-                            shipmentLetterIds: form.shipmentLetterIds,
                         }
                         : r,
                 ),
             )
-            setToastMessage('Permintaan transportasi diperbarui.')
+            setToastMessage('Permintaan pickup diperbarui.')
         } else {
-            const newReq: TransportRequest = {
-                id: generateId('trp'),
-                destination: form.destination,
-                clientId: form.clientId,
-                clientName: form.clientName,
-                deliveryDate: form.deliveryDate,
-                departureTime: '',
+            const newReq: PickupRequest = {
+                id: generateId('pkp'),
+                departureDateTime: form.departureDateTime,
+                destinations: form.destinations,
                 driverName: form.driverName,
                 vehicleType: form.vehicleType,
                 vehicleNo: form.vehicleNo,
-                status: 'waiting_driver',
+                status: 'pending',
                 note: form.note,
-                shipmentLetterIds: form.shipmentLetterIds,
             }
             setRequests((prev) => [...prev, newReq])
-            setToastMessage('Permintaan transportasi dibuat.')
+            setToastMessage('Permintaan pickup dibuat.')
         }
 
         setIsSubmitting(false)
@@ -136,7 +143,7 @@ export function useTransport() {
         setTimeout(() => setToastMessage(null), 3000)
     }
 
-    function updateStatus(id: string, status: TransportStatus) {
+    function updateStatus(id: string, status: PickupRequestStatus) {
         setRequests((prev) =>
             prev.map((r) => (r.id === id ? { ...r, status } : r)),
         )
@@ -147,8 +154,6 @@ export function useTransport() {
     return {
         requests,
         filteredRequests,
-        dateFilter,
-        setDateFilter,
         statusFilter,
         setStatusFilter,
         isFormOpen,
@@ -158,13 +163,14 @@ export function useTransport() {
         closeForm,
         form,
         setField,
+        addDestination,
+        updateDestination,
+        removeDestination,
         isValid,
         isSubmitting,
         saveRequest,
         updateStatus,
         toastMessage,
         drivers: MOCK_DRIVERS,
-        vehicles: MOCK_VEHICLES,
-        clients: MOCK_CLIENTS,
     }
 }

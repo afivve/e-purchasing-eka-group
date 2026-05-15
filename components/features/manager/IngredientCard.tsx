@@ -25,7 +25,9 @@ export function IngredientCard({
           <p className="text-sm font-semibold text-slate-800 leading-tight">
             {ingredient.name}
           </p>
-          <p className="mt-0.5 text-xs text-slate-400">{ingredient.category}</p>
+          <span className="mt-0.5 inline-flex items-center rounded-full border border-violet-100 bg-violet-50 px-2 py-0.5 text-[11px] font-medium text-violet-700">
+            {ingredient.category}
+          </span>
         </div>
         <StockStatusBadge status={ingredient.stockStatus} />
       </div>

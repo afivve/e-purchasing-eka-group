@@ -197,7 +197,7 @@ export const MOCK_SHIPMENTS: Shipment[] = [
         clientAddress: 'Jl. Transyogi No.168, Cibubur, Ciracas, Jakarta Timur 13720',
         deliveryDate: '2026-05-08',
         scheduledTime: '08:00',
-        status: 'partial',
+        status: 'delivered',
         driverName: 'Budi Raharjo',
         vehicleNo: 'B 9823 FKJ',
         deliveryNote: 'Udang windu tidak tersedia di supplier. Akan dikirim susulan.',

@@ -16,10 +16,10 @@ export const MOCK_DAILY_NEEDS: DailyNeed[] = [
         deliveryStatus: 'complete',
         paymentStatus: 'unpaid',
         ingredients: [
-            { id: 'dni-001-1', ingredientId: 'ing-006', ingredientName: 'Ayam Broiler', unit: 'kg', quantity: 15, supplierId: 'sup-002', supplierName: 'CV Protein Segar', deliveryStatus: 'complete' },
-            { id: 'dni-001-2', ingredientId: 'ing-001', ingredientName: 'Beras Putih', unit: 'kg', quantity: 12, supplierId: 'sup-001', supplierName: 'UD Maju Bersama', deliveryStatus: 'complete' },
-            { id: 'dni-001-3', ingredientId: 'ing-041', ingredientName: 'Minyak Goreng', unit: 'liter', quantity: 3, supplierId: 'sup-007', supplierName: 'PT Indo Palm & Food', deliveryStatus: 'complete' },
-            { id: 'dni-001-4', ingredientId: 'ing-019', ingredientName: 'Bawang Putih', unit: 'kg', quantity: 0.5, supplierId: 'sup-004', supplierName: 'PT Bumi Agro Nusantara', deliveryStatus: 'complete' },
+            { id: 'dni-001-1', ingredientId: 'ing-006', ingredientName: 'Ayam Broiler', unit: 'kg', quantity: 15, supplierSplits: [{ supplierId: 'sup-002', supplierName: 'CV Protein Segar', quantity: 15 }], deliveryStatus: 'complete' },
+            { id: 'dni-001-2', ingredientId: 'ing-001', ingredientName: 'Beras Putih', unit: 'kg', quantity: 12, supplierSplits: [{ supplierId: 'sup-001', supplierName: 'UD Maju Bersama', quantity: 12 }], deliveryStatus: 'complete' },
+            { id: 'dni-001-3', ingredientId: 'ing-041', ingredientName: 'Minyak Goreng', unit: 'liter', quantity: 3, supplierSplits: [{ supplierId: 'sup-007', supplierName: 'PT Indo Palm & Food', quantity: 3 }], deliveryStatus: 'complete' },
+            { id: 'dni-001-4', ingredientId: 'ing-019', ingredientName: 'Bawang Putih', unit: 'kg', quantity: 0.5, supplierSplits: [{ supplierId: 'sup-004', supplierName: 'PT Bumi Agro Nusantara', quantity: 0.5 }], deliveryStatus: 'complete' },
         ],
     },
 
@@ -34,10 +34,10 @@ export const MOCK_DAILY_NEEDS: DailyNeed[] = [
         deliveryStatus: 'partial',
         paymentStatus: 'unpaid',
         ingredients: [
-            { id: 'dni-002-1', ingredientId: 'ing-010', ingredientName: 'Daging Iga Sapi', unit: 'kg', quantity: 22, supplierId: 'sup-003', supplierName: 'PT Prima Daging', deliveryStatus: 'partial' },
-            { id: 'dni-002-2', ingredientId: 'ing-002', ingredientName: 'Beras Merah', unit: 'kg', quantity: 18, supplierId: 'sup-001', supplierName: 'UD Maju Bersama', deliveryStatus: 'complete' },
-            { id: 'dni-002-3', ingredientId: 'ing-032', ingredientName: 'Kentang', unit: 'kg', quantity: 10, supplierId: 'sup-004', supplierName: 'PT Bumi Agro Nusantara', deliveryStatus: 'complete' },
-            { id: 'dni-002-4', ingredientId: 'ing-033', ingredientName: 'Wortel', unit: 'kg', quantity: 8, supplierId: 'sup-004', supplierName: 'PT Bumi Agro Nusantara', deliveryStatus: 'complete' },
+            { id: 'dni-002-1', ingredientId: 'ing-010', ingredientName: 'Daging Iga Sapi', unit: 'kg', quantity: 22, supplierSplits: [{ supplierId: 'sup-003', supplierName: 'PT Prima Daging', quantity: 22 }], deliveryStatus: 'partial' },
+            { id: 'dni-002-2', ingredientId: 'ing-002', ingredientName: 'Beras Merah', unit: 'kg', quantity: 18, supplierSplits: [{ supplierId: 'sup-001', supplierName: 'UD Maju Bersama', quantity: 18 }], deliveryStatus: 'complete' },
+            { id: 'dni-002-3', ingredientId: 'ing-032', ingredientName: 'Kentang', unit: 'kg', quantity: 10, supplierSplits: [{ supplierId: 'sup-004', supplierName: 'PT Bumi Agro Nusantara', quantity: 10 }], deliveryStatus: 'complete' },
+            { id: 'dni-002-4', ingredientId: 'ing-033', ingredientName: 'Wortel', unit: 'kg', quantity: 8, supplierSplits: [{ supplierId: 'sup-004', supplierName: 'PT Bumi Agro Nusantara', quantity: 8 }], deliveryStatus: 'complete' },
         ],
     },
 
@@ -52,10 +52,10 @@ export const MOCK_DAILY_NEEDS: DailyNeed[] = [
         deliveryStatus: 'complete',
         paymentStatus: 'paid',
         ingredients: [
-            { id: 'dni-003-1', ingredientId: 'ing-001', ingredientName: 'Beras Putih', unit: 'kg', quantity: 6, supplierId: 'sup-001', supplierName: 'UD Maju Bersama', deliveryStatus: 'complete' },
-            { id: 'dni-003-2', ingredientId: 'ing-011', ingredientName: 'Telur Ayam', unit: 'kg', quantity: 4, supplierId: 'sup-002', supplierName: 'CV Protein Segar', deliveryStatus: 'complete' },
-            { id: 'dni-003-3', ingredientId: 'ing-017', ingredientName: 'Tempe', unit: 'potong', quantity: 30, supplierId: 'sup-006', supplierName: 'UD Sari Tahu & Tempe Bogor', deliveryStatus: 'complete' },
-            { id: 'dni-003-4', ingredientId: 'ing-043', ingredientName: 'Kecap Manis', unit: 'botol', quantity: 2, supplierId: 'sup-007', supplierName: 'PT Indo Palm & Food', deliveryStatus: 'complete' },
+            { id: 'dni-003-1', ingredientId: 'ing-001', ingredientName: 'Beras Putih', unit: 'kg', quantity: 6, supplierSplits: [{ supplierId: 'sup-001', supplierName: 'UD Maju Bersama', quantity: 6 }], deliveryStatus: 'complete' },
+            { id: 'dni-003-2', ingredientId: 'ing-011', ingredientName: 'Telur Ayam', unit: 'kg', quantity: 4, supplierSplits: [{ supplierId: 'sup-002', supplierName: 'CV Protein Segar', quantity: 4 }], deliveryStatus: 'complete' },
+            { id: 'dni-003-3', ingredientId: 'ing-017', ingredientName: 'Tempe', unit: 'potong', quantity: 30, supplierSplits: [{ supplierId: 'sup-006', supplierName: 'UD Sari Tahu & Tempe Bogor', quantity: 30 }], deliveryStatus: 'complete' },
+            { id: 'dni-003-4', ingredientId: 'ing-043', ingredientName: 'Kecap Manis', unit: 'botol', quantity: 2, supplierSplits: [{ supplierId: 'sup-007', supplierName: 'PT Indo Palm & Food', quantity: 2 }], deliveryStatus: 'complete' },
         ],
     },
 
@@ -70,11 +70,11 @@ export const MOCK_DAILY_NEEDS: DailyNeed[] = [
         deliveryStatus: 'in_process',
         paymentStatus: 'unpaid',
         ingredients: [
-            { id: 'dni-004-1', ingredientId: 'ing-012', ingredientName: 'Udang Segar', unit: 'kg', quantity: 15, supplierId: null, supplierName: null, deliveryStatus: 'unscheduled' },
-            { id: 'dni-004-2', ingredientId: 'ing-034', ingredientName: 'Kol / Kubis', unit: 'kg', quantity: 8, supplierId: 'sup-004', supplierName: 'PT Bumi Agro Nusantara', deliveryStatus: 'in_process' },
-            { id: 'dni-004-3', ingredientId: 'ing-033', ingredientName: 'Wortel', unit: 'kg', quantity: 6, supplierId: 'sup-004', supplierName: 'PT Bumi Agro Nusantara', deliveryStatus: 'in_process' },
-            { id: 'dni-004-4', ingredientId: 'ing-001', ingredientName: 'Beras Putih', unit: 'kg', quantity: 20, supplierId: 'sup-001', supplierName: 'UD Maju Bersama', deliveryStatus: 'complete' },
-            { id: 'dni-004-5', ingredientId: 'ing-045', ingredientName: 'Saus Tiram', unit: 'botol', quantity: 4, supplierId: 'sup-007', supplierName: 'PT Indo Palm & Food', deliveryStatus: 'in_process' },
+            { id: 'dni-004-1', ingredientId: 'ing-012', ingredientName: 'Udang Segar', unit: 'kg', quantity: 15, supplierSplits: [], deliveryStatus: 'unscheduled' },
+            { id: 'dni-004-2', ingredientId: 'ing-034', ingredientName: 'Kol / Kubis', unit: 'kg', quantity: 8, supplierSplits: [{ supplierId: 'sup-004', supplierName: 'PT Bumi Agro Nusantara', quantity: 8 }], deliveryStatus: 'in_process' },
+            { id: 'dni-004-3', ingredientId: 'ing-033', ingredientName: 'Wortel', unit: 'kg', quantity: 6, supplierSplits: [{ supplierId: 'sup-004', supplierName: 'PT Bumi Agro Nusantara', quantity: 6 }], deliveryStatus: 'in_process' },
+            { id: 'dni-004-4', ingredientId: 'ing-001', ingredientName: 'Beras Putih', unit: 'kg', quantity: 20, supplierSplits: [{ supplierId: 'sup-001', supplierName: 'UD Maju Bersama', quantity: 20 }], deliveryStatus: 'complete' },
+            { id: 'dni-004-5', ingredientId: 'ing-045', ingredientName: 'Saus Tiram', unit: 'botol', quantity: 4, supplierSplits: [{ supplierId: 'sup-007', supplierName: 'PT Indo Palm & Food', quantity: 4 }], deliveryStatus: 'in_process' },
         ],
     },
 
@@ -89,10 +89,10 @@ export const MOCK_DAILY_NEEDS: DailyNeed[] = [
         deliveryStatus: 'in_process',
         paymentStatus: 'unpaid',
         ingredients: [
-            { id: 'dni-005-1', ingredientId: 'ing-007', ingredientName: 'Ayam Kampung', unit: 'kg', quantity: 14, supplierId: 'sup-002', supplierName: 'CV Protein Segar', deliveryStatus: 'in_process' },
-            { id: 'dni-005-2', ingredientId: 'ing-040', ingredientName: 'Santan Kelapa', unit: 'liter', quantity: 5, supplierId: 'sup-007', supplierName: 'PT Indo Palm & Food', deliveryStatus: 'in_process' },
-            { id: 'dni-005-3', ingredientId: 'ing-001', ingredientName: 'Beras Putih', unit: 'kg', quantity: 12, supplierId: 'sup-001', supplierName: 'UD Maju Bersama', deliveryStatus: 'complete' },
-            { id: 'dni-005-4', ingredientId: 'ing-018', ingredientName: 'Bawang Merah', unit: 'kg', quantity: 1, supplierId: 'sup-004', supplierName: 'PT Bumi Agro Nusantara', deliveryStatus: 'complete' },
+            { id: 'dni-005-1', ingredientId: 'ing-007', ingredientName: 'Ayam Kampung', unit: 'kg', quantity: 14, supplierSplits: [{ supplierId: 'sup-002', supplierName: 'CV Protein Segar', quantity: 14 }], deliveryStatus: 'in_process' },
+            { id: 'dni-005-2', ingredientId: 'ing-040', ingredientName: 'Santan Kelapa', unit: 'liter', quantity: 5, supplierSplits: [{ supplierId: 'sup-007', supplierName: 'PT Indo Palm & Food', quantity: 5 }], deliveryStatus: 'in_process' },
+            { id: 'dni-005-3', ingredientId: 'ing-001', ingredientName: 'Beras Putih', unit: 'kg', quantity: 12, supplierSplits: [{ supplierId: 'sup-001', supplierName: 'UD Maju Bersama', quantity: 12 }], deliveryStatus: 'complete' },
+            { id: 'dni-005-4', ingredientId: 'ing-018', ingredientName: 'Bawang Merah', unit: 'kg', quantity: 1, supplierSplits: [{ supplierId: 'sup-004', supplierName: 'PT Bumi Agro Nusantara', quantity: 1 }], deliveryStatus: 'complete' },
         ],
     },
 
@@ -107,10 +107,10 @@ export const MOCK_DAILY_NEEDS: DailyNeed[] = [
         deliveryStatus: 'unscheduled',
         paymentStatus: 'unpaid',
         ingredients: [
-            { id: 'dni-006-1', ingredientId: 'ing-003', ingredientName: 'Mie Kuning', unit: 'kg', quantity: 18, supplierId: null, supplierName: null, deliveryStatus: 'unscheduled' },
-            { id: 'dni-006-2', ingredientId: 'ing-006', ingredientName: 'Ayam Broiler', unit: 'kg', quantity: 10, supplierId: null, supplierName: null, deliveryStatus: 'unscheduled' },
-            { id: 'dni-006-3', ingredientId: 'ing-034', ingredientName: 'Kol / Kubis', unit: 'kg', quantity: 5, supplierId: null, supplierName: null, deliveryStatus: 'unscheduled' },
-            { id: 'dni-006-4', ingredientId: 'ing-041', ingredientName: 'Minyak Goreng', unit: 'liter', quantity: 3, supplierId: null, supplierName: null, deliveryStatus: 'unscheduled' },
+            { id: 'dni-006-1', ingredientId: 'ing-003', ingredientName: 'Mie Kuning', unit: 'kg', quantity: 18, supplierSplits: [], deliveryStatus: 'unscheduled' },
+            { id: 'dni-006-2', ingredientId: 'ing-006', ingredientName: 'Ayam Broiler', unit: 'kg', quantity: 10, supplierSplits: [], deliveryStatus: 'unscheduled' },
+            { id: 'dni-006-3', ingredientId: 'ing-034', ingredientName: 'Kol / Kubis', unit: 'kg', quantity: 5, supplierSplits: [], deliveryStatus: 'unscheduled' },
+            { id: 'dni-006-4', ingredientId: 'ing-041', ingredientName: 'Minyak Goreng', unit: 'liter', quantity: 3, supplierSplits: [], deliveryStatus: 'unscheduled' },
         ],
     },
 
@@ -125,10 +125,10 @@ export const MOCK_DAILY_NEEDS: DailyNeed[] = [
         deliveryStatus: 'unscheduled',
         paymentStatus: 'unpaid',
         ingredients: [
-            { id: 'dni-007-1', ingredientId: 'ing-008', ingredientName: 'Daging Sapi Murni', unit: 'kg', quantity: 20, supplierId: null, supplierName: null, deliveryStatus: 'unscheduled' },
-            { id: 'dni-007-2', ingredientId: 'ing-040', ingredientName: 'Santan Kelapa', unit: 'liter', quantity: 6, supplierId: null, supplierName: null, deliveryStatus: 'unscheduled' },
-            { id: 'dni-007-3', ingredientId: 'ing-001', ingredientName: 'Beras Putih', unit: 'kg', quantity: 20, supplierId: null, supplierName: null, deliveryStatus: 'unscheduled' },
-            { id: 'dni-007-4', ingredientId: 'ing-036', ingredientName: 'Bayam Segar', unit: 'ikat', quantity: 15, supplierId: null, supplierName: null, deliveryStatus: 'unscheduled' },
+            { id: 'dni-007-1', ingredientId: 'ing-008', ingredientName: 'Daging Sapi Murni', unit: 'kg', quantity: 20, supplierSplits: [], deliveryStatus: 'unscheduled' },
+            { id: 'dni-007-2', ingredientId: 'ing-040', ingredientName: 'Santan Kelapa', unit: 'liter', quantity: 6, supplierSplits: [], deliveryStatus: 'unscheduled' },
+            { id: 'dni-007-3', ingredientId: 'ing-001', ingredientName: 'Beras Putih', unit: 'kg', quantity: 20, supplierSplits: [], deliveryStatus: 'unscheduled' },
+            { id: 'dni-007-4', ingredientId: 'ing-036', ingredientName: 'Bayam Segar', unit: 'ikat', quantity: 15, supplierSplits: [], deliveryStatus: 'unscheduled' },
         ],
     },
 ]

@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import {
   useAdminDailyNeeds,
   type AdminNeedDateFilter,
@@ -7,8 +8,10 @@ import {
 import { useShipmentLetters } from "@/hooks/useShipmentLetters";
 import { DailyNeedCardOps } from "@/components/features/admin-koperasi/DailyNeedCardOps";
 import { ShipmentLetterFormSheet } from "@/components/features/admin-koperasi/ShipmentLetterFormSheet";
+import { DailyNeedIngredientTable } from "@/components/features/manager/DailyNeedIngredientTable";
 import type { DailyNeed } from "@/types";
-import { ClipboardList } from "lucide-react";
+import { ClipboardList, LayoutList, List } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 const DATE_TABS: { id: AdminNeedDateFilter; label: string }[] = [
   { id: "yesterday", label: "Kemarin" },
@@ -18,6 +21,9 @@ const DATE_TABS: { id: AdminNeedDateFilter; label: string }[] = [
 ];
 
 export default function KebutuhanHarianPage() {
+  const [viewMode, setViewMode] = useState<"per_menu" | "per_bahan">(
+    "per_menu",
+  );
   const {
     filteredNeeds,
     dateFilter,
@@ -56,8 +62,8 @@ export default function KebutuhanHarianPage() {
         ingredientName: ing.ingredientName,
         unit: ing.unit,
         quantity: ing.quantity,
-        supplierId: ing.supplierId ?? null,
-        supplierName: ing.supplierName ?? null,
+        supplierId: ing.supplierSplits[0]?.supplierId ?? null,
+        supplierName: ing.supplierSplits[0]?.supplierName ?? null,
         isChecked: false,
       })),
     });
@@ -95,12 +101,12 @@ export default function KebutuhanHarianPage() {
           ))}
         </div>
 
-        {/* Client filter */}
-        <div className="mt-2">
+        {/* Client filter + view toggle */}
+        <div className="mt-2 flex gap-2">
           <select
             value={clientFilter}
             onChange={(e) => setClientFilter(e.target.value)}
-            className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 focus:border-orange-400 focus:outline-none focus:ring-2 focus:ring-orange-100"
+            className="flex-1 rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 focus:border-orange-400 focus:outline-none focus:ring-2 focus:ring-orange-100"
           >
             <option value="all">Semua Klien</option>
             {clients.map((c) => (
@@ -109,32 +115,67 @@ export default function KebutuhanHarianPage() {
               </option>
             ))}
           </select>
+          {/* View toggle */}
+          <div className="flex rounded-xl border border-slate-200 overflow-hidden shrink-0">
+            <button
+              onClick={() => setViewMode("per_menu")}
+              className={cn(
+                "flex h-9 w-9 items-center justify-center transition-colors",
+                viewMode === "per_menu"
+                  ? "bg-orange-600 text-white"
+                  : "bg-white text-slate-500 hover:bg-slate-50",
+              )}
+              title="Per Menu"
+            >
+              <LayoutList size={15} />
+            </button>
+            <button
+              onClick={() => setViewMode("per_bahan")}
+              className={cn(
+                "flex h-9 w-9 items-center justify-center border-l border-slate-200 transition-colors",
+                viewMode === "per_bahan"
+                  ? "bg-orange-600 text-white"
+                  : "bg-white text-slate-500 hover:bg-slate-50",
+              )}
+              title="Per Bahan"
+            >
+              <List size={15} />
+            </button>
+          </div>
         </div>
       </div>
 
       {/* Content */}
-      <div className="px-4 py-4 space-y-3">
-        {filteredNeeds.length === 0 ? (
-          <div className="rounded-xl border border-dashed border-slate-300 bg-white px-4 py-12 text-center text-slate-400">
-            <ClipboardList size={30} className="mx-auto mb-2 opacity-40" />
-            <p className="text-sm font-medium">Tidak ada kebutuhan harian</p>
-            <p className="text-xs mt-1">Coba ubah filter tanggal atau klien.</p>
-          </div>
-        ) : (
-          filteredNeeds.map((need) => {
-            const linked = letters.find((l) => l.dailyNeedId === need.id);
-            return (
-              <DailyNeedCardOps
-                key={need.id}
-                need={need}
-                linkedShipmentCode={linked?.code ?? null}
-                onCreateShipmentLetter={handleCreateShipmentLetter}
-                onViewShipmentLetter={handleViewShipmentLetter}
-              />
-            );
-          })
-        )}
-      </div>
+      {viewMode === "per_menu" ? (
+        <div className="px-4 py-4 space-y-3">
+          {filteredNeeds.length === 0 ? (
+            <div className="rounded-xl border border-dashed border-slate-300 bg-white px-4 py-12 text-center text-slate-400">
+              <ClipboardList size={30} className="mx-auto mb-2 opacity-40" />
+              <p className="text-sm font-medium">Tidak ada kebutuhan harian</p>
+              <p className="text-xs mt-1">
+                Coba ubah filter tanggal atau klien.
+              </p>
+            </div>
+          ) : (
+            filteredNeeds.map((need) => {
+              const linked = letters.find((l) => l.dailyNeedId === need.id);
+              return (
+                <DailyNeedCardOps
+                  key={need.id}
+                  need={need}
+                  linkedShipmentCode={linked?.code ?? null}
+                  onCreateShipmentLetter={handleCreateShipmentLetter}
+                  onViewShipmentLetter={handleViewShipmentLetter}
+                />
+              );
+            })
+          )}
+        </div>
+      ) : (
+        <div className="py-4">
+          <DailyNeedIngredientTable needs={filteredNeeds} />
+        </div>
+      )}
 
       {/* Form sheet */}
       <ShipmentLetterFormSheet

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ChevronDown, ChevronUp, Users } from "lucide-react";
+import { ChevronDown, ChevronUp } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { formatShortDate } from "@/lib/utils";
 import {
@@ -14,18 +14,24 @@ import type { DailyNeed } from "@/types";
 interface DailyNeedCardProps {
   need: DailyNeed;
   onPickSupplier: (needId: string, ingredientId: string) => void;
+  onRemoveSplit?: (
+    needId: string,
+    ingredientId: string,
+    supplierId: string,
+  ) => void;
   defaultExpanded?: boolean;
 }
 
 export function DailyNeedCard({
   need,
   onPickSupplier,
+  onRemoveSplit,
   defaultExpanded = false,
 }: DailyNeedCardProps) {
   const [expanded, setExpanded] = useState(defaultExpanded);
 
   const unassignedCount = need.ingredients.filter(
-    (i) => i.supplierId === null,
+    (i) => i.supplierSplits.length === 0,
   ).length;
 
   return (
@@ -53,10 +59,6 @@ export function DailyNeedCard({
         </div>
 
         <div className="mt-2 flex items-center gap-3 text-xs text-slate-500">
-          <span className="flex items-center gap-1">
-            <Users className="h-3 w-3" />
-            {need.portionCount} porsi
-          </span>
           <span>{formatShortDate(need.deliveryDate)}</span>
           <DailyNeedPaymentBadge status={need.paymentStatus} />
         </div>
@@ -80,6 +82,12 @@ export function DailyNeedCard({
                 key={ing.id}
                 ingredient={ing}
                 onPickSupplier={(ingId) => onPickSupplier(need.id, ingId)}
+                onRemoveSplit={
+                  onRemoveSplit
+                    ? (ingId, supplierId) =>
+                        onRemoveSplit(need.id, ingId, supplierId)
+                    : undefined
+                }
               />
             ))}
           </div>

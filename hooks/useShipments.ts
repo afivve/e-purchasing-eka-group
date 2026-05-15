@@ -44,9 +44,9 @@ export function useShipments() {
         })
     }, [shipments, searchQuery, statusFilter])
 
-    /** Count shipments that need admin action (delivered or partial, not yet checked) */
+    /** Count shipments that need admin action (delivered, not yet checked) */
     const pendingCheckCount = useMemo(
-        () => shipments.filter((s) => s.status === 'delivered' || s.status === 'partial').length,
+        () => shipments.filter((s) => s.status === 'delivered').length,
         [shipments],
     )
 

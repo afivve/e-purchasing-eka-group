@@ -9,17 +9,19 @@ import { generateId } from '@/lib/utils'
 export interface ClientFormData {
     name: string
     address: string
-    kepalaSppiId: string
+    clientType: 'dapur' | 'non_dapur'
     akuntanClientId: string
     ahliGiziId: string
+    managerClientId: string
 }
 
 const EMPTY_FORM: ClientFormData = {
     name: '',
     address: '',
-    kepalaSppiId: '',
+    clientType: 'dapur',
     akuntanClientId: '',
     ahliGiziId: '',
+    managerClientId: '',
 }
 
 export function useClients() {
@@ -63,9 +65,9 @@ export function useClients() {
 
     const isValid =
         form.name.trim().length > 0 &&
-        form.kepalaSppiId !== '' &&
-        form.akuntanClientId !== '' &&
-        form.ahliGiziId !== ''
+        (form.clientType === 'dapur'
+            ? form.akuntanClientId !== '' && form.ahliGiziId !== ''
+            : form.managerClientId !== '')
 
     async function saveClient() {
         if (!isValid) return
@@ -75,9 +77,11 @@ export function useClients() {
             id: generateId('cli'),
             name: form.name.trim(),
             address: form.address.trim(),
-            kepalaSppiId: form.kepalaSppiId,
-            akuntanClientId: form.akuntanClientId,
-            ahliGiziId: form.ahliGiziId,
+            clientType: form.clientType,
+            kepalaSppiId: '',
+            akuntanClientId: form.clientType === 'dapur' ? form.akuntanClientId : '',
+            ahliGiziId: form.clientType === 'dapur' ? form.ahliGiziId : '',
+            managerClientId: form.clientType === 'non_dapur' ? form.managerClientId : '',
             activeMenuCount: 0,
             weeklyDeliveryProgress: 0,
             operationalStatus: 'active',

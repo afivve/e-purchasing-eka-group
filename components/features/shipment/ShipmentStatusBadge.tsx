@@ -17,11 +17,6 @@ const STATUS_CONFIG: Record<
     className: "bg-blue-50 text-blue-700 border border-blue-200",
     dotClass: "bg-blue-500",
   },
-  partial: {
-    label: "Tiba Sebagian",
-    className: "bg-amber-50 text-amber-700 border border-amber-200",
-    dotClass: "bg-amber-400",
-  },
   delivered: {
     label: "Sampai",
     className: "bg-teal-50 text-teal-700 border border-teal-200",

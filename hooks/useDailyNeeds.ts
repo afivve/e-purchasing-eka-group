@@ -49,24 +49,27 @@ export function useDailyNeeds() {
         setSupplierPickerIngId(null)
     }
 
-    function assignSupplier(needId: string, ingredientId: string, supplierId: string) {
+    function addSupplierSplit(needId: string, ingredientId: string, supplierId: string, qty: number) {
         const supplier = MOCK_SUPPLIERS.find((s) => s.id === supplierId)
         if (!supplier) return
         setNeeds((prev) =>
             prev.map((n) => {
                 if (n.id !== needId) return n
-                const updatedIngs = n.ingredients.map((i) =>
-                    i.id === ingredientId
-                        ? {
-                            ...i,
-                            supplierId,
-                            supplierName: supplier.name,
-                            deliveryStatus: 'in_process' as DailyNeedDeliveryStatus,
-                        }
-                        : i,
-                )
-                const allAssigned = updatedIngs.every((i) => i.supplierId !== null)
-                const anyComplete = updatedIngs.some((i) => i.deliveryStatus === 'complete')
+                const updatedIngs = n.ingredients.map((i) => {
+                    if (i.id !== ingredientId) return i
+                    const alreadyExists = i.supplierSplits.some((s) => s.supplierId === supplierId)
+                    const newSplits = alreadyExists
+                        ? i.supplierSplits.map((s) =>
+                            s.supplierId === supplierId ? { ...s, quantity: qty } : s
+                        )
+                        : [...i.supplierSplits, { supplierId, supplierName: supplier.name, quantity: qty }]
+                    return {
+                        ...i,
+                        supplierSplits: newSplits,
+                        deliveryStatus: 'in_process' as DailyNeedDeliveryStatus,
+                    }
+                })
+                const allAssigned = updatedIngs.every((i) => i.supplierSplits.length > 0)
                 return {
                     ...n,
                     ingredients: updatedIngs,
@@ -75,6 +78,24 @@ export function useDailyNeeds() {
             }),
         )
         closeSupplierPicker()
+    }
+
+    function removeSupplierSplit(needId: string, ingredientId: string, supplierId: string) {
+        setNeeds((prev) =>
+            prev.map((n) => {
+                if (n.id !== needId) return n
+                const updatedIngs = n.ingredients.map((i) => {
+                    if (i.id !== ingredientId) return i
+                    const newSplits = i.supplierSplits.filter((s) => s.supplierId !== supplierId)
+                    return {
+                        ...i,
+                        supplierSplits: newSplits,
+                        deliveryStatus: (newSplits.length === 0 ? 'unscheduled' : i.deliveryStatus) as DailyNeedDeliveryStatus,
+                    }
+                })
+                return { ...n, ingredients: updatedIngs }
+            }),
+        )
     }
 
     const activePickerNeed = needs.find((n) => n.id === supplierPickerNeedId) ?? null
@@ -92,7 +113,8 @@ export function useDailyNeeds() {
         stats,
         openSupplierPicker,
         closeSupplierPicker,
-        assignSupplier,
+        addSupplierSplit,
+        removeSupplierSplit,
         activePickerNeed,
         activePickerIng,
         isSupplierPickerOpen: supplierPickerNeedId !== null,

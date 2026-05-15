@@ -11,15 +11,22 @@ import {
 } from "lucide-react";
 import { cn, formatDateRange } from "@/lib/utils";
 import { useDashboard } from "@/hooks/useDashboard";
+import { useMenuTemplates } from "@/hooks/useMenuTemplates";
 import { WeeklyPackageSidebar } from "@/components/features/WeeklyPackageSidebar";
 import { DailyMenuList } from "@/components/features/DailyMenuList";
 import { MenuFormSheet } from "@/components/features/MenuFormSheet";
+import { TemplatePickerSheet } from "@/components/features/TemplatePickerSheet";
 import { ToastContainer } from "@/components/features/ToastContainer";
 import { MOCK_PACKAGES } from "@/mock/packages";
+import type { MenuTemplate } from "@/types";
 
 type FilterStatus = "all" | "pending" | "partial" | "complete";
 
-export function DashboardView() {
+interface DashboardViewProps {
+  clientId?: string;
+}
+
+export function DashboardView({ clientId = "client-001" }: DashboardViewProps) {
   const {
     selectedPackageId,
     selectPackage,
@@ -41,9 +48,31 @@ export function DashboardView() {
     toasts,
   } = useDashboard();
 
+  const { templates, saveTemplate, deleteTemplate } =
+    useMenuTemplates(clientId);
+  const [isTemplatePickerOpen, setIsTemplatePickerOpen] = useState(false);
+  const [populateFromTemplate, setPopulateFromTemplate] =
+    useState<MenuTemplate | null>(null);
+
   const [filterStatus, setFilterStatus] = useState<FilterStatus>("all");
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const searchInputRef = useRef<HTMLInputElement>(null);
+
+  function handleSaveMenu(
+    menu: Parameters<typeof saveMenu>[0],
+    asTemplate: boolean,
+  ) {
+    if (asTemplate) {
+      saveTemplate(menu.name, menu.ingredients);
+    }
+    saveMenu(menu);
+  }
+
+  function handleUseTemplate(tpl: MenuTemplate) {
+    setPopulateFromTemplate(tpl);
+    setIsTemplatePickerOpen(false);
+    openAddForm();
+  }
 
   const selectedPackage =
     MOCK_PACKAGES.find((p) => p.id === selectedPackageId) ?? null;
@@ -263,10 +292,26 @@ export function DashboardView() {
       {/* Menu Form Bottom Sheet */}
       <MenuFormSheet
         open={isFormOpen}
-        onClose={closeForm}
-        onSave={saveMenu}
+        onClose={() => {
+          closeForm();
+          setPopulateFromTemplate(null);
+        }}
+        onSave={handleSaveMenu}
         editingMenu={editingMenu}
         packageId={selectedPackageId}
+        templates={templates}
+        onPickTemplate={() => setIsTemplatePickerOpen(true)}
+        populateTemplate={populateFromTemplate}
+        onTemplateClear={() => setPopulateFromTemplate(null)}
+      />
+
+      {/* Template Picker Sheet */}
+      <TemplatePickerSheet
+        isOpen={isTemplatePickerOpen}
+        templates={templates}
+        onUse={handleUseTemplate}
+        onDelete={deleteTemplate}
+        onClose={() => setIsTemplatePickerOpen(false)}
       />
 
       {/* Toast notifications */}

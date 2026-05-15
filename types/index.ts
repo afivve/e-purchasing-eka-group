@@ -68,9 +68,16 @@ export interface ToastItem {
     type: 'success' | 'error' | 'warning'
 }
 
+export interface MenuTemplate {
+    id: string
+    clientId: string
+    name: string
+    ingredients: MenuIngredient[]
+}
+
 // ─── Shipment / Receiving ──────────────────────────────────────────────────────
 
-export type ShipmentStatus = 'scheduled' | 'in_transit' | 'partial' | 'delivered' | 'checked'
+export type ShipmentStatus = 'scheduled' | 'in_transit' | 'delivered' | 'checked'
 
 export type ItemReceivingStatus = 'pending' | 'ok' | 'short' | 'missing'
 
@@ -119,9 +126,11 @@ export interface Client {
     id: string
     name: string
     address: string
+    clientType: 'dapur' | 'non_dapur'
     kepalaSppiId: string
     akuntanClientId: string
     ahliGiziId: string
+    managerClientId: string
     activeMenuCount: number
     weeklyDeliveryProgress: number
     operationalStatus: 'active' | 'inactive'
@@ -216,6 +225,7 @@ export interface TransportRequest {
     clientId: string
     clientName: string
     deliveryDate: string
+    departureTime: string
     driverName: string
     vehicleType: string
     vehicleNo: string
@@ -224,14 +234,46 @@ export interface TransportRequest {
     shipmentLetterIds: string[]
 }
 
+export interface Armada {
+    id: string
+    platNo: string
+    merk: string
+    jenis: string
+    isActive: boolean
+}
+
+export type PickupRequestStatus = 'pending' | 'confirmed' | 'in_transit' | 'done'
+
+export interface PickupDestination {
+    id: string
+    place: string
+    items: string
+}
+
+export interface PickupRequest {
+    id: string
+    departureDateTime: string
+    destinations: PickupDestination[]
+    driverName: string
+    vehicleType: string
+    vehicleNo: string
+    status: PickupRequestStatus
+    note: string
+}
+
+export interface SupplierSplit {
+    supplierId: string
+    supplierName: string
+    quantity: number
+}
+
 export interface DailyNeedIngredient {
     id: string
     ingredientId: string
     ingredientName: string
     unit: string
     quantity: number
-    supplierId: string | null
-    supplierName: string | null
+    supplierSplits: SupplierSplit[]
     deliveryStatus: DailyNeedDeliveryStatus
 }
 
@@ -290,4 +332,31 @@ export interface IncomingShipment {
     note: string
     receivedBy: string | null
     createdAt: string
+}
+
+// ─── Akuntan Dapur — Invoice Masuk ────────────────────────────────────────────
+
+export type InvoicePaymentStatus = 'unpaid' | 'partial' | 'paid'
+
+export interface IncomingInvoiceItem {
+    id: string
+    description: string
+    qty: number
+    unit: string
+    unitPrice: number
+    totalPrice: number
+}
+
+export interface IncomingInvoice {
+    id: string
+    invoiceNo: string
+    suratJalanNo: string | null
+    supplierName: string
+    invoiceDate: string
+    dueDate: string
+    items: IncomingInvoiceItem[]
+    totalAmount: number
+    paidAmount: number
+    paymentStatus: InvoicePaymentStatus
+    note: string | null
 }

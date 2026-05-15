@@ -26,7 +26,7 @@ interface ShipmentDetailSheetProps {
 }
 
 /** States where admin can interactively check items */
-const EDITABLE_STATES = new Set(["delivered", "partial"]);
+const EDITABLE_STATES = new Set(["delivered"]);
 
 export function ShipmentDetailSheet({
   open,
@@ -194,7 +194,7 @@ export function ShipmentDetailSheet({
                             {item.ingredientName}
                           </p>
                           <p className="text-[11px] text-slate-400">
-                            {item.supplier}
+                            {item.unit}
                           </p>
                         </div>
                         <span className="shrink-0 text-sm font-semibold tabular-nums text-slate-700">
